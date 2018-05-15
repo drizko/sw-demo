@@ -1,0 +1,14 @@
+.imgs-container {
+  padding: 50px;
+}
+
+.imgs {
+  display: flex;
+  flex-flow: wrap;
+  padding: 10px;
+  height: 200px;
+}
+
+.search-form {
+  padding: 20px;
+}

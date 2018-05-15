@@ -1,13 +1,14 @@
 import React from 'react';
 import './style.css';
 import config from '../config.json';
+import ProgressiveImage from 'react-progressive-image';
 
-class SearchGifs extends React.Component {
+class SearchImgs extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      searchTerm: 'danny',
+      searchTerm: 'USA',
       imageAmount: 3
     };
   }
@@ -21,33 +22,35 @@ class SearchGifs extends React.Component {
   }
 
   handleClear = () => {
-    this.setState({gifs: ''});
+    this.setState({imgs: ''});
   }
 
-  fetchGifs = (searchTerm, imageAmount) => {
-    fetch(`https://pixabay.com/api/?key=${config.PIXABAY_API}&q=${searchTerm}&image_type=photo&per_page=${imageAmount}`)
+  fetchImgs = (searchTerm, imageAmount) => {
+    fetch(`https://pixabay.com/api/?key=${config.PIXABAY_API}&q=${searchTerm}&image_type=photo&per_page=${imageAmount}`, { credentials: 'same-origin'})
     .then(res => res.json())
     .then(data => {
-      let gifs = data.hits.map(item => (
-        <img className="gifs" src={item.webformatURL} alt="gif" key={item.id} />
+      let imgs = data.hits.map(item => (
+        <ProgressiveImage className="imgs" key={item.id} src={item.webformatURL} placeholder='Eclipse-1s-200px.svg'>
+          {(src) => <img className="imgs" src={src} alt='something'/>}
+        </ProgressiveImage>
       ));
 
-      this.setState({ gifs })
+      this.setState({ imgs })
     });
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.fetchGifs(this.state.searchTerm, this.state.imageAmount)
+    this.fetchImgs(this.state.searchTerm, this.state.imageAmount)
   }
 
   componentDidMount() {
-    this.fetchGifs(this.state.searchTerm, this.state.imageAmount)
+    this.fetchImgs(this.state.searchTerm, this.state.imageAmount)
   }
 
   render() {
     return (
-      <div className="gifs-container">
+      <div className="imgs-container">
         <div className="search-form">
           <form onSubmit={this.handleSubmit}>
             <label>
@@ -60,14 +63,14 @@ class SearchGifs extends React.Component {
             </label>
             <input type="submit" value="Submit" />
           </form>
-          <button onClick={this.handleClear}>Clear gifs</button>
+          <button onClick={this.handleClear}>Clear imgs</button>
         </div>
-        <div className="gifs">
-          {this.state.gifs}
+        <div className="imgs">
+          {this.state.imgs}
         </div>
       </div>
     );
   }
 };
 
-export default SearchGifs;
+export default SearchImgs;

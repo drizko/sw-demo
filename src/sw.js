@@ -1,23 +1,21 @@
-/* global workbox importScripts */
+/* global workbox */
 /* eslint no-undef: "error"*/
 /* global event */
 /* eslint no-restricted-globals: ["error", "event"] */
-
-// importScripts('workbox-v3.2.0/workbox-sw.js');
-// importScripts("/workbox-sw.js");
-// workbox.setConfig({modulePathPrefix: ""});
 
 workbox.skipWaiting();
 workbox.clientsClaim();
 
 workbox.routing.registerRoute(
   new RegExp('/(.*)'),
-  workbox.strategies.staleWhileRevalidate()
+  workbox.strategies.cacheFirst()
 );
 
 workbox.routing.registerRoute(
   new RegExp('https://pixabay.com/(.*)'),
-  workbox.strategies.staleWhileRevalidate()
+  workbox.strategies.cacheFirst({
+    plugins: [new workbox.backgroundSync.Plugin('myQueueName')]
+  })
 );
 
 self.addEventListener('push', (event) => {

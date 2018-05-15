@@ -1,11 +1,11 @@
 import React from 'react';
-import SearchGifs from '../gif-search';
+import SearchImgs from '../search-imgs';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import './style.css';
 
 const App = () => (
   <Router>
-    <Route component={SearchGifs}></Route>
+    <Route component={SearchImgs}></Route>
   </Router>
 )
 
